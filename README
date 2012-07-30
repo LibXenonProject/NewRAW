@@ -1,0 +1,21 @@
+I have tried to make a runnable version of RAW -Another world Interpretor-
+
+Actually, these things works :
+
+- Protection Wheel
+- In-game save and load
+- Joystick
+- Audio sound
+- Bypass protection test=> on my personal dump
+
+
+Things doesn't work :
+ all ok
+
+Things still buggy :
+
+Sound
+
+Original another world files should be put in "raw" directory
+
+-- MagicSeb on LibXenon.org Forums
