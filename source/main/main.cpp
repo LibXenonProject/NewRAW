@@ -20,6 +20,7 @@
 #include "systemstub.h"
 #include "util.h"
 #include "xenon.h"
+#include "mount.h"
 
 static const char *USAGE = 
 	"Raw - Another World Interpreter\n"
@@ -40,6 +41,16 @@ static bool parseOption(const char *arg, const char *longCmd, const char **opt) 
 
 #undef main
 int main(int argc, char *argv[]) {
+	
+	char *basepath = (char*)malloc(256);
+	
+	if(argc != 0 && argv[0]){
+		char *tmp = argv_GetFilepath(argv[0]);
+		sprintf(basepath,"%s/raw",tmp);
+	} else {
+		basepath = "uda0:/raw";
+	}
+	
 	xenon_make_it_faster(XENON_SPEED_FULL);
     xenos_init(VIDEO_MODE_AUTO);
 
@@ -48,10 +59,17 @@ int main(int argc, char *argv[]) {
     
     usb_init();
     usb_do_poll();
+    
+    xenon_ata_init();
+    xenon_atapi_init();
+    
+    mount_all_devices();
+    findDevices();
+    
 	xenon_sound_init();
 
-	const char *dataPath = "uda:/raw";
-	const char *savePath = "uda:/raw";
+	const char *dataPath = basepath;
+	const char *savePath = basepath;
 	for (int i = 1; i < argc; ++i) {
 		bool opt = false;
 		if (strlen(argv[i]) >= 2) {
